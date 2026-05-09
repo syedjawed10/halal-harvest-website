@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Halal Harvest — Pure Meat, Delivered</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream: #F5F0E8;
+  --warm-white: #FDFAF5;
+  --deep-green: #1A3A2A;
+  --mid-green: #2D5A40;
+  --light-green: #4A7C5F;
+  --gold: #C9943A;
+  --gold-light: #E8B86D;
+  --charcoal: #1C1C1A;
+  --text-muted: #6B6B60;
+  --border: rgba(26,58,42,0.12);
+  --red: #C0392B;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--warm-white); color: var(--charcoal); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 4rem;
+  background: rgba(253,250,245,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark { width: 36px; height: 36px; background: var(--deep-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.logo-mark svg { width: 20px; height: 20px; fill: var(--gold); }
+.logo-text { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--deep-green); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { text-decoration: none; font-size: 0.875rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.02em; transition: color 0.2s; }
+.nav-links a:hover { color: var(--deep-green); }
+.nav-right { display: flex; align-items: center; gap: 1rem; }
+.nav-cta { background: var(--deep-green); color: var(--cream); padding: 0.6rem 1.5rem; border-radius: 100px; font-size: 0.875rem; font-weight: 500; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+.nav-cta:hover { background: var(--mid-green); transform: translateY(-1px); }
+.cart-btn {
+  position: relative; background: none; border: 2px solid var(--deep-green);
+  border-radius: 100px; padding: 0.5rem 1.1rem; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 600;
+  color: var(--deep-green); display: flex; align-items: center; gap: 6px;
+  transition: all 0.2s;
+}
+.cart-btn:hover { background: var(--deep-green); color: var(--cream); }
+.cart-count {
+  background: var(--gold); color: var(--deep-green);
+  border-radius: 50%; width: 20px; height: 20px;
+  font-size: 0.7rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  display: none;
+}
+.cart-count.visible { display: flex; }
+
+/* HERO */
+.hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 80px; overflow: hidden; }
+.hero-left { display: flex; flex-direction: column; justify-content: center; padding: 5rem 4rem 5rem 5rem; }
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(201,148,58,0.12); color: var(--gold); border: 1px solid rgba(201,148,58,0.3); padding: 0.35rem 1rem; border-radius: 100px; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 2rem; width: fit-content; animation: fadeUp 0.6s ease both; }
+.hero-badge::before { content: '✦'; font-size: 0.6rem; }
+.hero-heading { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 900; line-height: 1.05; color: var(--deep-green); margin-bottom: 1.5rem; animation: fadeUp 0.6s 0.1s ease both; }
+.hero-heading em { font-style: italic; color: var(--gold); }
+.hero-sub { font-size: 1.05rem; line-height: 1.75; color: var(--text-muted); max-width: 420px; margin-bottom: 2.5rem; animation: fadeUp 0.6s 0.2s ease both; font-weight: 300; }
+.hero-actions { display: flex; align-items: center; gap: 1rem; animation: fadeUp 0.6s 0.3s ease both; }
+.btn-primary { background: var(--deep-green); color: var(--cream); padding: 0.85rem 2rem; border-radius: 100px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: all 0.2s; display: inline-block; }
+.btn-primary:hover { background: var(--mid-green); transform: translateY(-2px); }
+.btn-ghost { color: var(--deep-green); font-size: 0.9rem; font-weight: 500; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: gap 0.2s; }
+.btn-ghost:hover { gap: 10px; }
+.hero-stats { display: flex; gap: 2.5rem; margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid var(--border); animation: fadeUp 0.6s 0.4s ease both; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--deep-green); }
+.stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+.hero-right { background: var(--deep-green); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.hero-pattern { position: absolute; inset: 0; background-image: radial-gradient(circle at 30% 40%, rgba(201,148,58,0.15) 0%, transparent 60%), radial-gradient(circle at 70% 70%, rgba(74,124,95,0.2) 0%, transparent 50%); }
+.hero-img-wrap { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; padding: 3rem; }
+.hero-product-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 1.5rem 2rem; text-align: center; backdrop-filter: blur(8px); animation: float 4s ease-in-out infinite; }
+.hero-product-card:nth-child(2) { animation-delay: -1.3s; margin-left: 60px; }
+.hero-product-card:nth-child(3) { animation-delay: -2.6s; margin-right: 40px; }
+.product-emoji { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; }
+.product-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--cream); font-weight: 700; }
+.product-tag { font-size: 0.75rem; color: var(--gold-light); margin-top: 4px; letter-spacing: 0.04em; }
+.halal-badge { position: absolute; bottom: 2rem; right: 2rem; background: var(--gold); color: var(--deep-green); border-radius: 50%; width: 80px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.62rem; font-weight: 700; text-align: center; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.3; animation: spin-slow 12s linear infinite; }
+
+/* TRUST BAR */
+.trust-bar { background: var(--deep-green); color: var(--cream); display: flex; justify-content: center; gap: 4rem; padding: 1.25rem 4rem; flex-wrap: wrap; }
+.trust-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; }
+.trust-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+/* SECTION */
+section { padding: 6rem 5rem; }
+.section-label { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 0.75rem; }
+.section-heading { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 700; color: var(--deep-green); line-height: 1.2; margin-bottom: 1rem; }
+.section-sub { font-size: 1rem; color: var(--text-muted); max-width: 480px; line-height: 1.7; font-weight: 300; }
+
+/* SHOP SECTION */
+.shop-section { background: var(--cream); }
+.shop-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+.category-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.tab-btn { background: none; border: 1px solid var(--border); border-radius: 100px; padding: 0.5rem 1.2rem; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+.tab-btn.active, .tab-btn:hover { background: var(--deep-green); color: var(--cream); border-color: var(--deep-green); }
+
+/* ITEMS GRID */
+.items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.2rem; }
+.item-card {
+  background: var(--warm-white); border: 1px solid var(--border); border-radius: 18px;
+  overflow: hidden; transition: transform 0.22s, box-shadow 0.22s; cursor: pointer;
+  position: relative;
+}
+.item-card:hover { transform: translateY(-5px); box-shadow: 0 16px 32px rgba(26,58,42,0.1); }
+.item-img {
+  height: 130px; display: flex; align-items: center; justify-content: center;
+  font-size: 3.2rem; position: relative;
+}
+.chicken-bg { background: linear-gradient(135deg, #FFF8E8, #FFF0C8); }
+.lamb-bg { background: linear-gradient(135deg, #F8EEF0, #F5D8DC); }
+.goat-bg { background: linear-gradient(135deg, #F0F5E8, #D8ECC8); }
+.beef-bg { background: linear-gradient(135deg, #F0EEF8, #DDD8F0); }
+.marinated-bg { background: linear-gradient(135deg, #FFF0E8, #FFD8C0); }
+.item-body { padding: 1rem 1.1rem 1.1rem; }
+.item-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--deep-green); margin-bottom: 0.3rem; line-height: 1.3; }
+.item-desc { font-size: 0.76rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem; font-weight: 300; }
+.item-price { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+.item-price strong { font-size: 1.05rem; color: var(--deep-green); font-weight: 700; }
+.item-price .tbd { font-size: 0.8rem; color: var(--gold); font-weight: 500; font-style: italic; }
+.add-btn {
+  width: 100%; background: var(--deep-green); color: var(--cream);
+  border: none; border-radius: 100px; padding: 0.6rem 1rem;
+  font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em;
+}
+.add-btn:hover { background: var(--mid-green); }
+.new-badge { position: absolute; top: 10px; right: 10px; background: var(--gold); color: var(--deep-green); font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 100px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+/* QUANTITY MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(26,42,26,0.55);
+  z-index: 500; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--warm-white); border-radius: 24px; padding: 2rem;
+  width: 90%; max-width: 420px;
+  transform: scale(0.92) translateY(20px);
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  max-height: 90vh; overflow-y: auto;
+}
+.modal-overlay.open .modal { transform: scale(1) translateY(0); }
+.modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--deep-green); }
+.modal-close { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted); line-height: 1; padding: 2px; }
+.modal-price { font-size: 1rem; color: var(--gold); font-weight: 600; margin-bottom: 1.25rem; }
+
+/* Cut options */
+.cut-options { margin-bottom: 1.25rem; }
+.cut-label { font-size: 0.8rem; font-weight: 600; color: var(--deep-green); margin-bottom: 0.5rem; letter-spacing: 0.03em; text-transform: uppercase; }
+.cut-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+.cut-opt {
+  background: none; border: 1px solid var(--border); border-radius: 100px;
+  padding: 5px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
+  font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.18s;
+}
+.cut-opt.selected { background: var(--deep-green); color: var(--cream); border-color: var(--deep-green); }
+
+/* Qty */
+.qty-wrap { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+.qty-label { font-size: 0.82rem; font-weight: 600; color: var(--deep-green); text-transform: uppercase; letter-spacing: 0.03em; }
+.qty-ctrl { display: flex; align-items: center; gap: 0.75rem; }
+.qty-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--cream); border: 1px solid var(--border); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; font-weight: 600; color: var(--deep-green); }
+.qty-btn:hover { background: var(--deep-green); color: var(--cream); }
+.qty-num { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--deep-green); min-width: 30px; text-align: center; }
+.qty-unit { font-size: 0.78rem; color: var(--text-muted); }
+.modal-add-btn { width: 100%; background: var(--deep-green); color: var(--cream); border: none; border-radius: 100px; padding: 0.9rem; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.modal-add-btn:hover { background: var(--mid-green); }
+
+/* CART DRAWER */
+.cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+.cart-overlay.open { opacity: 1; pointer-events: all; }
+.cart-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 420px; max-width: 95vw;
+  background: var(--warm-white); z-index: 400; box-shadow: -8px 0 32px rgba(0,0,0,0.12);
+  display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.cart-drawer.open { transform: translateX(0); }
+.cart-drawer-head { padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.cart-drawer-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--deep-green); }
+.cart-close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+.cart-items { flex: 1; overflow-y: auto; padding: 1.25rem 1.75rem; }
+.cart-empty { text-align: center; padding: 3rem 1rem; color: var(--text-muted); font-size: 0.95rem; }
+.cart-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+.cart-item-icon { font-size: 2rem; }
+.cart-item-info { flex: 1; }
+.cart-item-name { font-weight: 600; font-size: 0.9rem; color: var(--deep-green); margin-bottom: 2px; }
+.cart-item-cut { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
+.cart-item-qty { font-size: 0.78rem; color: var(--text-muted); }
+.cart-item-price { font-weight: 700; color: var(--deep-green); font-size: 0.95rem; white-space: nowrap; }
+.cart-item-remove { background: none; border: none; color: #ccc; font-size: 1rem; cursor: pointer; padding: 2px; transition: color 0.2s; }
+.cart-item-remove:hover { color: var(--red); }
+.cart-footer { padding: 1.25rem 1.75rem; border-top: 1px solid var(--border); }
+.cart-subtotal { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; }
+.cart-subtotal span:last-child { font-weight: 700; color: var(--deep-green); }
+.cart-note { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; }
+.checkout-btn { width: 100%; background: var(--deep-green); color: var(--cream); border: none; border-radius: 100px; padding: 1rem; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.checkout-btn:hover { background: var(--mid-green); }
+
+/* PAYMENT SECTION */
+.payment-section { background: var(--warm-white); }
+.payment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 3rem; }
+.payment-form-wrap { background: var(--cream); border: 1px solid var(--border); border-radius: 24px; padding: 2.5rem; }
+.form-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--deep-green); margin-bottom: 1.5rem; }
+.form-section-label { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 0.75rem; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.25rem; }
+.form-group { margin-bottom: 1.1rem; }
+label { display: block; font-size: 0.82rem; font-weight: 500; color: var(--deep-green); margin-bottom: 6px; letter-spacing: 0.02em; }
+input, select, textarea { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; background: var(--warm-white); color: var(--charcoal); outline: none; transition: border-color 0.2s; appearance: none; }
+input:focus, select:focus, textarea:focus { border-color: var(--mid-green); }
+textarea { resize: vertical; min-height: 80px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.payment-methods { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.25rem; }
+.pay-method {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.85rem 1rem; border: 2px solid var(--border); border-radius: 12px;
+  cursor: pointer; transition: all 0.2s;
+}
+.pay-method input[type="radio"] { width: auto; accent-color: var(--deep-green); }
+.pay-method.selected { border-color: var(--mid-green); background: rgba(45,90,64,0.04); }
+.pay-method-label { font-size: 0.9rem; font-weight: 500; color: var(--deep-green); flex: 1; }
+.pay-method-icons { display: flex; gap: 4px; align-items: center; }
+.pay-icon { height: 22px; border-radius: 4px; }
+.card-fields { background: var(--warm-white); border-radius: 12px; padding: 1rem; border: 1px solid var(--border); margin-bottom: 1rem; }
+.card-number-wrap { position: relative; }
+.card-number-wrap input { padding-right: 3rem; }
+.card-type-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 1.1rem; }
+.submit-btn { width: 100%; background: var(--deep-green); color: var(--cream); border: none; padding: 1rem; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem; letter-spacing: 0.02em; }
+.submit-btn:hover { background: var(--mid-green); transform: translateY(-2px); }
+.secure-note { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.75rem; }
+.secure-note span { color: var(--light-green); }
+
+/* AFTERPAY INFO */
+.afterpay-info { background: #000000; border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem; }
+.afterpay-info h4 { color: #B2FFB2; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
+.afterpay-info p { color: rgba(255,255,255,0.7); font-size: 0.82rem; line-height: 1.6; }
+.zip-info { background: #1A1A6E; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
+.zip-info h4 { color: #8888FF; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
+.zip-info p { color: rgba(255,255,255,0.7); font-size: 0.82rem; line-height: 1.6; }
+
+.payment-info-side { display: flex; flex-direction: column; gap: 1.25rem; }
+.info-card { border-left: 3px solid var(--gold); padding-left: 1.25rem; }
+.info-card-title { font-weight: 600; color: var(--deep-green); margin-bottom: 4px; font-size: 0.95rem; }
+.info-card-text { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; font-weight: 300; }
+.delivery-map { background: var(--deep-green); border-radius: 16px; padding: 1.5rem; margin-top: 0.5rem; }
+.map-title { font-family: 'Playfair Display', serif; color: var(--cream); font-size: 1rem; margin-bottom: 1rem; }
+.map-towns { display: flex; flex-wrap: wrap; gap: 8px; }
+.town-tag { background: rgba(255,255,255,0.1); color: var(--cream); border: 1px solid rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 100px; font-size: 0.78rem; }
+.town-tag.active { background: var(--gold); color: var(--deep-green); border-color: var(--gold); font-weight: 600; }
+
+/* HOW IT WORKS */
+.how-section { background: var(--deep-green); }
+.how-section .section-heading { color: var(--cream); }
+.how-section .section-sub { color: rgba(245,240,232,0.6); }
+.steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
+.step-card { position: relative; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem 1.5rem; }
+.step-num { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: rgba(201,148,58,0.2); line-height: 1; margin-bottom: 1rem; }
+.step-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--cream); font-weight: 700; margin-bottom: 0.5rem; }
+.step-text { font-size: 0.85rem; color: rgba(245,240,232,0.55); line-height: 1.65; font-weight: 300; }
+
+/* FOOTER */
+footer { background: var(--charcoal); color: rgba(245,240,232,0.6); padding: 3rem 5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--cream); font-weight: 700; }
+.footer-text { font-size: 0.8rem; line-height: 1.6; }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { color: rgba(245,240,232,0.5); font-size: 0.82rem; text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+
+/* TOAST */
+.toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 999; background: var(--deep-green); color: var(--cream); padding: 0.9rem 1.4rem; border-radius: 12px; font-size: 0.88rem; font-weight: 500; transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1); pointer-events: none; }
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* CHECKOUT MODAL */
+.checkout-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 600; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; backdrop-filter: blur(4px); }
+.checkout-modal-overlay.open { opacity: 1; pointer-events: all; }
+.checkout-modal { background: var(--warm-white); border-radius: 24px; padding: 2.5rem; width: 95%; max-width: 520px; transform: scale(0.92); transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); max-height: 90vh; overflow-y: auto; }
+.checkout-modal-overlay.open .checkout-modal { transform: scale(1); }
+.checkout-modal h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--deep-green); margin-bottom: 0.5rem; }
+.checkout-modal .sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+.checkout-order-summary { background: var(--cream); border-radius: 14px; padding: 1.25rem; margin-bottom: 1.5rem; }
+.checkout-order-summary h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold); font-weight: 600; margin-bottom: 0.75rem; }
+.summary-item { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--charcoal); margin-bottom: 0.4rem; }
+.summary-total { display: flex; justify-content: space-between; font-weight: 700; color: var(--deep-green); padding-top: 0.75rem; border-top: 1px solid var(--border); margin-top: 0.5rem; }
+
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-left { padding: 3rem 1.5rem; }
+  .hero-right { min-height: 300px; }
+  section { padding: 4rem 1.5rem; }
+  .items-grid { grid-template-columns: repeat(2, 1fr); }
+  .payment-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+  footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+  .trust-bar { gap: 1.5rem; padding: 1.25rem 1.5rem; }
+  .cart-drawer { width: 100%; max-width: 100%; }
+}
+@media (max-width: 500px) {
+  .items-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>
+    </div>
+    <span class="logo-text">Halal Harvest</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#payment">Order</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="cart-btn" onclick="openCart()">
+      🛒 Cart <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <a href="#payment" class="nav-cta">Order Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;">
+  <div class="hero-left">
+    <div class="hero-badge">Halal Certified &amp; Fresh Daily</div>
+    <h1 class="hero-heading"><em>Pure</em> halal meat,<br>Sydney &amp; beyond</h1>
+    <p class="hero-sub">Premium halal chicken, lamb, goat and beef delivered fresh across Sydney and regional NSW. Certified halal, cold-chain guaranteed.</p>
+    <div class="hero-actions">
+      <a href="#shop" class="btn-primary">Shop now</a>
+      <a href="#how" class="btn-ghost">How it works →</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">4</div><div class="stat-label">Premium meats</div></div>
+      <div><div class="stat-num">40+</div><div class="stat-label">Cuts available</div></div>
+      <div><div class="stat-num">100%</div><div class="stat-label">Halal certified</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-pattern"></div>
+    <div class="hero-img-wrap">
+      <div class="hero-product-card"><span class="product-emoji">🐔</span><div class="product-name">Chicken</div><div class="product-tag">10 cuts available</div></div>
+      <div class="hero-product-card"><span class="product-emoji">🐐</span><div class="product-name">Goat &amp; Lamb</div><div class="product-tag">Full range</div></div>
+      <div class="hero-product-card"><span class="product-emoji">🥩</span><div class="product-name">Beef</div><div class="product-tag">14 cuts available</div></div>
+    </div>
+    <div class="halal-badge">HALAL<br>CERTIFIED<br>✦</div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><div class="trust-dot"></div>100% Halal Certified</div>
+  <div class="trust-item"><div class="trust-dot"></div>Sydney metro delivery</div>
+  <div class="trust-item"><div class="trust-dot"></div>Fresh — never frozen</div>
+  <div class="trust-item"><div class="trust-dot"></div>Regional NSW weekly runs</div>
+  <div class="trust-item"><div class="trust-dot"></div>Cold-chain guaranteed</div>
+</div>
+
+<!-- SHOP -->
+<section class="shop-section" id="shop">
+  <div class="shop-header reveal">
+    <div>
+      <div class="section-label">Our meats</div>
+      <h2 class="section-heading">Shop by cut</h2>
+    </div>
+    <p class="section-sub" style="max-width:300px;">Click any item to select your quantity. Mix and match across all meats.</p>
+  </div>
+  <div class="category-tabs reveal">
+    <button class="tab-btn active" onclick="filterCat('all', this)">All Meats</button>
+    <button class="tab-btn" onclick="filterCat('chicken', this)">🐔 Chicken</button>
+    <button class="tab-btn" onclick="filterCat('goat', this)">🐐 Goat</button>
+    <button class="tab-btn" onclick="filterCat('lamb', this)">🐑 Lamb</button>
+    <button class="tab-btn" onclick="filterCat('beef', this)">🥩 Beef</button>
+    <button class="tab-btn" onclick="filterCat('marinated', this)">🔥 Marinated</button>
+  </div>
+  <div class="items-grid" id="itemsGrid"></div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="reveal">
+    <div class="section-label" style="color:var(--gold-light);">Simple process</div>
+    <h2 class="section-heading">How it works</h2>
+    <p class="section-sub">Order by Wednesday, receive by the weekend. Fresh, cold-chain guaranteed.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card reveal"><div class="step-num">01</div><div class="step-title">Browse &amp; add to cart</div><div class="step-text">Pick your cuts, choose your quantity, and add them to your cart. Mix chicken, lamb, goat and beef.</div></div>
+    <div class="step-card reveal"><div class="step-num">02</div><div class="step-title">Place &amp; pay</div><div class="step-text">Submit your order by Wednesday. Pay securely by card, bank transfer, cash on delivery — or split with Afterpay.</div></div>
+    <div class="step-card reveal"><div class="step-num">03</div><div class="step-title">We pack &amp; prep</div><div class="step-text">Your order is vacuum-sealed with certified halal labels and packed in cold chain packaging.</div></div>
+    <div class="step-card reveal"><div class="step-num">04</div><div class="step-title">Delivered to you</div><div class="step-text">Sydney metro Friday. Regional NSW Friday–Saturday. Refrigerated transport, door to door.</div></div>
+  </div>
+</section>
+
+<!-- PAYMENT / ORDER -->
+<section class="payment-section" id="payment">
+  <div class="reveal">
+    <div class="section-label">Checkout</div>
+    <h2 class="section-heading">Place your order</h2>
+    <p class="section-sub">Fill in your details, choose a payment method, and we'll confirm within 24 hours.</p>
+  </div>
+  <div class="payment-grid">
+    <div class="payment-form-wrap reveal">
+      <div class="form-title">Order details</div>
+
+      <div class="form-row">
+        <div class="form-group"><label for="fname">First name</label><input type="text" id="fname" placeholder="Ahmed"></div>
+        <div class="form-group"><label for="lname">Last name</label><input type="text" id="lname" placeholder="Hassan"></div>
+      </div>
+      <div class="form-group"><label for="phone">Phone number</label><input type="tel" id="phone" placeholder="04XX XXX XXX"></div>
+      <div class="form-group"><label for="email">Email address</label><input type="email" id="email" placeholder="you@example.com"></div>
+      <div class="form-group">
+        <label for="town">Delivery area</label>
+        <select id="town">
+          <option value="">Select your area...</option>
+          <optgroup label="Sydney Metro">
+            <option>Sydney — Inner West</option>
+            <option>Sydney — South West</option>
+            <option>Sydney — West</option>
+            <option>Sydney — North West</option>
+            <option>Sydney — South</option>
+            <option>Sydney — East</option>
+          </optgroup>
+          <optgroup label="Regional NSW">
+            <option>Dubbo</option>
+            <option>Wagga Wagga</option>
+            <option>Bathurst</option>
+            <option>Orange</option>
+            <option>Albury</option>
+            <option>Tamworth</option>
+            <option>Armidale</option>
+            <option>Broken Hill</option>
+            <option>Griffith</option>
+            <option>Other regional area</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-group"><label for="notes">Special instructions (optional)</label><textarea id="notes" placeholder="Custom cuts, specific packaging requests, etc."></textarea></div>
+
+      <div class="form-section-label">Payment method</div>
+      <div class="payment-methods">
+        <label class="pay-method selected" id="pm-card" onclick="selectPayment('card')">
+          <input type="radio" name="payment" value="card" checked>
+          <span class="pay-method-label">💳 Credit / Debit Card</span>
+          <div class="pay-method-icons">
+            <span style="font-size:1.2rem;">💳</span>
+          </div>
+        </label>
+        <label class="pay-method" id="pm-afterpay" onclick="selectPayment('afterpay')">
+          <input type="radio" name="payment" value="afterpay">
+          <span class="pay-method-label">🟩 Afterpay — Buy now, pay in 4</span>
+        </label>
+        <label class="pay-method" id="pm-zip" onclick="selectPayment('zip')">
+          <input type="radio" name="payment" value="zip">
+          <span class="pay-method-label">🔵 Zip Pay — Pay later</span>
+        </label>
+        <label class="pay-method" id="pm-bank" onclick="selectPayment('bank')">
+          <input type="radio" name="payment" value="bank">
+          <span class="pay-method-label">🏦 Bank transfer (EFT)</span>
+        </label>
+        <label class="pay-method" id="pm-cash" onclick="selectPayment('cash')">
+          <input type="radio" name="payment" value="cash">
+          <span class="pay-method-label">💵 Cash on delivery</span>
+        </label>
+      </div>
+
+      <!-- Card fields -->
+      <div class="card-fields" id="cardFields">
+        <div class="form-group" style="margin-bottom:0.75rem;">
+          <label>Card number</label>
+          <div class="card-number-wrap">
+            <input type="text" id="cardNum" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
+            <span class="card-type-icon" id="cardIcon">💳</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:0;"><label>Expiry</label><input type="text" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)"></div>
+          <div class="form-group" style="margin-bottom:0;"><label>CVV</label><input type="password" placeholder="•••" maxlength="4"></div>
+        </div>
+      </div>
+
+      <!-- Bank transfer info -->
+      <div id="bankInfo" style="display:none; background:var(--cream); border-radius:12px; padding:1rem; margin-bottom:1rem; border:1px solid var(--border);">
+        <div style="font-size:0.82rem; font-weight:600; color:var(--deep-green); margin-bottom:0.5rem;">Bank transfer details</div>
+        <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.7;">
+          Account name: <strong>Halal Harvest Pty Ltd</strong><br>
+          BSB: <strong>XXX-XXX</strong><br>
+          Account: <strong>XXXXXXXX</strong><br>
+          Reference: <strong>Your name + phone</strong>
+        </div>
+      </div>
+
+      <div class="secure-note">🔒 <span>Secured by 256-bit SSL encryption.</span> We never store your card details.</div>
+      <button class="submit-btn" style="margin-top:1rem;" onclick="submitOrder()">Place order</button>
+    </div>
+
+    <div class="payment-info-side reveal">
+      <div class="afterpay-info">
+        <h4>🟩 Afterpay — should you use it?</h4>
+        <p>Afterpay lets customers split orders into 4 fortnightly payments, interest-free. It's hugely popular in Australia and can increase average order size — especially for bulk buys of $100–$300. <strong style="color:#B2FFB2;">We recommend adding it</strong> — many halal household buyers shop in bulk and would benefit from spreading the cost. Setup is via the Afterpay merchant portal and takes a few days to approve.</p>
+      </div>
+      <div class="zip-info">
+        <h4>🔵 Zip Pay — should you use it?</h4>
+        <p>Zip Pay works similarly but allows up to $1,000 credit with more flexible repayment. It suits larger orders (e.g. bulk wholesale). <strong style="color:#9999FF;">Worth considering</strong> once you have regular bulk customers. Can be added alongside Afterpay with no conflict. Both integrate into most payment processors (Stripe, Square, etc.).</p>
+      </div>
+      <div class="info-card"><div class="info-card-title">Order cut-off</div><div class="info-card-text">Orders close Wednesday midnight each week. Delivery Friday–Saturday. Late orders roll to next week.</div></div>
+      <div class="info-card"><div class="info-card-title">Minimum order</div><div class="info-card-text">$80 minimum for regional delivery. No minimum for Sydney metro. Bulk orders 10kg+ receive 10% discount.</div></div>
+      <div class="info-card"><div class="info-card-title">Halal guarantee</div><div class="info-card-text">Every product carries a halal certification label. Certification documents available on request.</div></div>
+      <div class="delivery-map">
+        <div class="map-title">Delivery areas</div>
+        <div class="map-towns">
+          <span class="town-tag active">Sydney Metro</span>
+          <span class="town-tag active">Dubbo</span>
+          <span class="town-tag active">Wagga Wagga</span>
+          <span class="town-tag active">Bathurst</span>
+          <span class="town-tag active">Orange</span>
+          <span class="town-tag">Albury</span>
+          <span class="town-tag">Tamworth</span>
+          <span class="town-tag">Griffith</span>
+          <span class="town-tag">+ More coming</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Halal Harvest Pty Ltd</div>
+    <div class="footer-text" style="margin-top:6px;">Sydney, NSW — delivering across metro &amp; regional Australia<br>ABN: XX XXX XXX XXX &nbsp;|&nbsp; Halal Certified</div>
+  </div>
+  <div class="footer-links">
+    <a href="#shop">Shop</a>
+    <a href="#how">How It Works</a>
+    <a href="#payment">Order Now</a>
+    <a href="mailto:hello@halalharvest.com.au">hello@halalharvest.com.au</a>
+  </div>
+  <div class="footer-text" style="font-size:0.75rem;">© 2026 Halal Harvest Pty Ltd. All rights reserved.</div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Item added to cart!</div>
+
+<!-- QUANTITY MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modalTitle">Chicken Breast Fillet</div>
+        <div class="modal-price" id="modalPrice">Price TBC</div>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div id="cutOptionsWrap"></div>
+    <div class="qty-wrap">
+      <div class="qty-label">Quantity</div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <span class="qty-num" id="qtyDisplay">1</span>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+      <div class="qty-unit" id="qtyUnit">kg</div>
+    </div>
+    <button class="modal-add-btn" onclick="addToCart()">Add to cart</button>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-drawer-head">
+    <div class="cart-drawer-title">Your cart 🛒</div>
+    <button class="cart-close-btn" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">Your cart is empty.<br>Add items from our shop above.</div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div>
+    <div class="cart-note">Prices confirmed after butcher consultation. Final invoice sent before delivery.</div>
+    <button class="checkout-btn" onclick="goCheckout()">Proceed to checkout →</button>
+  </div>
+</div>
+
+<!-- CHECKOUT CONFIRMATION MODAL -->
+<div class="checkout-modal-overlay" id="checkoutOverlay" onclick="closeCheckout(event)">
+  <div class="checkout-modal">
+    <h2>Review your order</h2>
+    <p class="sub">Below is your cart summary. Fill in your details above to complete your order.</p>
+    <div class="checkout-order-summary">
+      <h4>Order summary</h4>
+      <div id="checkoutSummaryItems"></div>
+      <div class="summary-total"><span>Estimated total</span><span id="checkoutTotal">$0.00</span></div>
+    </div>
+    <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.6;">Prices are estimates. Your final invoice will be confirmed by our team within 24 hours based on your butcher's pricing.</p>
+    <button class="modal-add-btn" style="margin-top:1.25rem;" onclick="closeCheckout()">Got it — fill in my details</button>
+  </div>
+</div>
+
+<script>
+// ─── PRODUCT DATA ───────────────────────────────────────────────────────────
+const products = [
+  // CHICKEN
+  { id:'c1', cat:'chicken', emoji:'🐔', bg:'chicken-bg', name:'Chicken Curry Pieces', desc:'Bone-in curry cut pieces, perfect for curries, biryanis and stews.', price: null, unit:'kg' },
+  { id:'c2', cat:'chicken', emoji:'🐔', bg:'chicken-bg', name:'S11 Chicken', desc:'Size 11 whole chicken — ideal for roasting or cutting at home.', price: null, unit:'bird' },
+  { id:'c3', cat:'chicken', emoji:'🐔', bg:'chicken-bg', name:'S14 Chicken', desc:'Size 14 whole chicken — great for large families and gatherings.', price: null, unit:'bird' },
+  { id:'c4', cat:'chicken', emoji:'🐔', bg:'chicken-bg', name:'S9 Chicken', desc:'Size 9 whole chicken — compact and great value for smaller households.', price: null, unit:'bird' },
+  { id:'c5', cat:'chicken', emoji:'🍗', bg:'chicken-bg', name:'Breast Fillet', desc:'Boneless, skinless chicken breast fillet. Lean, versatile and tender.', price: null, unit:'kg' },
+  { id:'c6', cat:'chicken', emoji:'🍗', bg:'chicken-bg', name:'Thigh Fillet', desc:'Boneless thigh fillet — juicier and more flavourful than breast.', price: null, unit:'kg' },
+  { id:'c7', cat:'chicken', emoji:'🍗', bg:'chicken-bg', name:'Drumsticks', desc:'Classic bone-in drumsticks. Great for baking, BBQ or curries.', price: null, unit:'kg' },
+  { id:'c8', cat:'chicken', emoji:'🍗', bg:'chicken-bg', name:'Drumettes', desc:'Mini drumstick-style wing pieces. Perfect for appetisers and finger food.', price: null, unit:'kg' },
+  { id:'c9', cat:'chicken', emoji:'🍗', bg:'chicken-bg', name:'Marylands', desc:'Leg and thigh joined — great for roasting or smoking whole.', price: null, unit:'kg' },
+  { id:'c10', cat:'chicken', emoji:'🍗', bg:'chicken-bg', name:'Chicken Mince', desc:'Fresh halal chicken mince. Great for kofta, burgers and keema.', price: null, unit:'kg' },
+  // GOAT
+  { id:'g1', cat:'goat', emoji:'🐐', bg:'goat-bg', name:'Goat Curry Pieces', desc:'Bone-in curry cut goat — rich flavour for slow-cooked dishes.', price: null, unit:'kg' },
+  { id:'g2', cat:'goat', emoji:'🐐', bg:'goat-bg', name:'Goat Leg', desc:'Whole leg, curry pieces, or custom cuts (e.g. 10 pcs). Specify below.', price: null, unit:'kg', cuts:['Whole leg','Curry pieces','Custom cuts (10 pcs)','Custom cuts (other)'] },
+  { id:'g3', cat:'goat', emoji:'🐐', bg:'goat-bg', name:'Goat Shoulder', desc:'Full shoulder or curry pieces. Perfect for slow roasting or karahi.', price: null, unit:'kg', cuts:['Whole shoulder','Curry pieces','Custom cuts'] },
+  { id:'g4', cat:'goat', emoji:'🐐', bg:'goat-bg', name:'Goat Boneless', desc:'Boneless goat meat — great for stir-fries, grilling and kababs.', price: null, unit:'kg' },
+  { id:'g5', cat:'goat', emoji:'🐐', bg:'goat-bg', name:'Goat Shanks', desc:'Rich, collagen-packed shanks — ideal for slow braises and tagines.', price: null, unit:'kg' },
+  { id:'g6', cat:'goat', emoji:'🐐', bg:'goat-bg', name:'Goat Mince', desc:'Fresh halal goat mince for kofta, keema and pies.', price: null, unit:'kg' },
+  { id:'g7', cat:'goat', emoji:'🐐', bg:'goat-bg', name:'Goat Feet', desc:'Traditional goat trotters — great for paya soup and slow-cooked broths.', price: null, unit:'kg' },
+  // LAMB
+  { id:'l1', cat:'lamb', emoji:'🐑', bg:'lamb-bg', name:'Lamb Curry Pieces', desc:'Bone-in curry cut lamb — the foundation of every great curry.', price: null, unit:'kg' },
+  { id:'l2', cat:'lamb', emoji:'🐑', bg:'lamb-bg', name:'Lamb Leg', desc:'Whole leg, curry pieces, or custom cuts. Ask us for what you need.', price: null, unit:'kg', cuts:['Whole leg','Curry pieces','Custom cuts (10 pcs)','Custom cuts (other)'] },
+  { id:'l3', cat:'lamb', emoji:'🐑', bg:'lamb-bg', name:'Lamb Shoulder', desc:'Whole shoulder or curry pieces — perfect for slow roasting or karahi.', price: null, unit:'kg', cuts:['Whole shoulder','Curry pieces','Custom cuts'] },
+  { id:'l4', cat:'lamb', emoji:'🐑', bg:'lamb-bg', name:'Lamb Boneless', desc:'Boneless lamb — versatile for grilling, stir-fries and skewers.', price: null, unit:'kg' },
+  { id:'l5', cat:'lamb', emoji:'🐑', bg:'lamb-bg', name:'Lamb Shanks', desc:'Tender lamb shanks — perfect for slow braises and rich stews.', price: null, unit:'kg' },
+  { id:'l6', cat:'lamb', emoji:'🐑', bg:'lamb-bg', name:'Lamb Mince', desc:'Fresh halal lamb mince for kofta, keema and shepherd\'s pie.', price: null, unit:'kg' },
+  { id:'l7', cat:'lamb', emoji:'🐑', bg:'lamb-bg', name:'Lamb Feet', desc:'Traditional lamb trotters — great for paya soup and broths.', price: null, unit:'kg' },
+  // BEEF
+  { id:'b1', cat:'beef', emoji:'🥩', bg:'beef-bg', name:'Beef Curry Pieces', desc:'Bone-in beef curry cut — rich and full of flavour for slow curries.', price: null, unit:'kg' },
+  { id:'b2', cat:'beef', emoji:'🥩', bg:'beef-bg', name:'Beef Shoulder', desc:'Whole shoulder or curry pieces — great for braises and slow-roasting.', price: null, unit:'kg', cuts:['Whole shoulder','Curry pieces'] },
+  { id:'b3', cat:'beef', emoji:'🥩', bg:'beef-bg', name:'Beef Leg', desc:'Bone-in beef leg or cut into curry pieces on request.', price: null, unit:'kg', cuts:['Whole leg','Curry pieces'] },
+  { id:'b4', cat:'beef', emoji:'🥩', bg:'beef-bg', name:'Beef Round Steak', desc:'Lean and firm round steak — great for grilling or slow cooking.', price: null, unit:'kg' },
+  { id:'b5', cat:'beef', emoji:'🥩', bg:'beef-bg', name:'Beef Minute Steak', desc:'Thin-cut steak for quick pan frying or sandwiches.', price: null, unit:'kg' },
+  { id:'b6', cat:'beef', emoji:'🥩', bg:'beef-bg', name:'Beef Boneless', desc:'Premium boneless beef cuts — versatile for any cooking method.', price: null, unit:'kg' },
+  { id:'b7', cat:'beef', emoji:'🥩', bg:'beef-bg', name:'Beef Mince', desc:'Fresh halal beef mince — ideal for burgers, bolognese and kofta.', price: null, unit:'kg' },
+  { id:'b8', cat:'beef', emoji:'🥩', bg:'beef-bg', name:'Beef Mince (Fat Free)', desc:'Lean halal beef mince — low fat, high protein option.', price: null, unit:'kg' },
+  { id:'b9', cat:'beef', emoji:'🥩', bg:'beef-bg', name:'Beef Ossobuco', desc:'Cross-cut beef shank with marrow bone — perfect for Milanese or braises.', price: null, unit:'kg' },
+  { id:'b10', cat:'beef', emoji:'🥩', bg:'beef-bg', name:'Beef Gravy', desc:'Bone-in beef gravy cuts — excellent for rich stocks and slow stews.', price: null, unit:'kg' },
+  { id:'b11', cat:'beef', emoji:'🥩', bg:'beef-bg', name:'Beef Stir-Fry', desc:'Thinly sliced beef strips — ready for wok cooking or Asian dishes.', price: null, unit:'kg' },
+  { id:'b12', cat:'beef', emoji:'🥩', bg:'beef-bg', name:'Beef Chunk (Uncut)', desc:'Large uncut beef chunk — for those who prefer to portion at home.', price: null, unit:'kg' },
+  // MARINATED
+  { id:'m1', cat:'marinated', emoji:'🔥', bg:'marinated-bg', name:'Chicken Malai Boti', desc:'Tender chicken cubes marinated in cream, cheese and spices. Ready to grill.', price: null, unit:'kg', isNew: true },
+  { id:'m2', cat:'marinated', emoji:'🌶️', bg:'marinated-bg', name:'Chicken Tikka', desc:'Classic spiced chicken tikka marinade. BBQ, grill or oven-ready.', price: null, unit:'kg', isNew: true },
+];
+
+let cart = [];
+let currentItem = null;
+let currentQty = 1;
+let selectedCut = null;
+
+// ─── RENDER ITEMS ─────────────────────────────────────────────────────────
+function renderItems(cat) {
+  const grid = document.getElementById('itemsGrid');
+  const filtered = cat === 'all' ? products : products.filter(p => p.cat === cat);
+  grid.innerHTML = filtered.map(p => `
+    <div class="item-card reveal" onclick="openModal('${p.id}')">
+      ${p.isNew ? '<span class="new-badge">New</span>' : ''}
+      <div class="item-img ${p.bg}">${p.emoji}</div>
+      <div class="item-body">
+        <div class="item-name">${p.name}</div>
+        <div class="item-desc">${p.desc}</div>
+        <div class="item-price">${p.price ? `From <strong>$${p.price}/${p.unit}</strong>` : `<span class="tbd">Price coming soon</span>`}</div>
+        <button class="add-btn">Add to order +</button>
+      </div>
+    </div>
+  `).join('');
+  // re-observe for reveal
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+function filterCat(cat, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderItems(cat);
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────
+function openModal(id) {
+  currentItem = products.find(p => p.id === id);
+  currentQty = 1;
+  selectedCut = currentItem.cuts ? currentItem.cuts[0] : null;
+  document.getElementById('modalTitle').textContent = currentItem.name;
+  document.getElementById('modalPrice').textContent = currentItem.price ? `$${currentItem.price} / ${currentItem.unit}` : 'Price coming soon — will be confirmed before delivery';
+  document.getElementById('qtyDisplay').textContent = currentQty;
+  document.getElementById('qtyUnit').textContent = currentItem.unit;
+
+  const cutWrap = document.getElementById('cutOptionsWrap');
+  if (currentItem.cuts) {
+    cutWrap.innerHTML = `
+      <div class="cut-options">
+        <div class="cut-label">Choose cut / style</div>
+        <div class="cut-btns">
+          ${currentItem.cuts.map((c,i) => `<button class="cut-opt ${i===0?'selected':''}" onclick="selectCut(this,'${c}')">${c}</button>`).join('')}
+        </div>
+      </div>`;
+  } else {
+    cutWrap.innerHTML = '';
+  }
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function selectCut(btn, cut) {
+  document.querySelectorAll('.cut-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedCut = cut;
+}
+function closeModal(e) { if (e.target === document.getElementById('modalOverlay')) closeModalDirect(); }
+function closeModalDirect() { document.getElementById('modalOverlay').classList.remove('open'); }
+function changeQty(d) {
+  currentQty = Math.max(1, currentQty + d);
+  document.getElementById('qtyDisplay').textContent = currentQty;
+}
+function addToCart() {
+  if (!currentItem) return;
+  const existing = cart.find(i => i.id === currentItem.id && i.cut === selectedCut);
+  if (existing) {
+    existing.qty += currentQty;
+  } else {
+    cart.push({ id: currentItem.id, name: currentItem.name, emoji: currentItem.emoji, price: currentItem.price, unit: currentItem.unit, qty: currentQty, cut: selectedCut });
+  }
+  closeModalDirect();
+  updateCartUI();
+  showToast(`✓ ${currentItem.name} added to cart!`);
+}
+
+// ─── CART ─────────────────────────────────────────────────────────────────
+function updateCartUI() {
+  const total = cart.reduce((s, i) => s + (i.price ? i.price * i.qty : 0), 0);
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  const countEl = document.getElementById('cartCount');
+  countEl.textContent = cart.length;
+  cart.length > 0 ? countEl.classList.add('visible') : countEl.classList.remove('visible');
+
+  const itemsEl = document.getElementById('cartItems');
+  if (cart.length === 0) {
+    itemsEl.innerHTML = '<div class="cart-empty">Your cart is empty.<br>Add items from our shop above.</div>';
+  } else {
+    itemsEl.innerHTML = cart.map((item, idx) => `
+      <div class="cart-item">
+        <div class="cart-item-icon">${item.emoji}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          ${item.cut ? `<div class="cart-item-cut">${item.cut}</div>` : ''}
+          <div class="cart-item-qty">${item.qty} ${item.unit}</div>
+        </div>
+        <div class="cart-item-price">${item.price ? `$${(item.price * item.qty).toFixed(2)}` : 'TBC'}</div>
+        <button class="cart-item-remove" onclick="removeItem(${idx})">✕</button>
+      </div>`).join('');
+  }
+  document.getElementById('cartSubtotal').textContent = total > 0 ? `$${total.toFixed(2)}` : 'TBC';
+}
+function removeItem(idx) { cart.splice(idx, 1); updateCartUI(); }
+function openCart() { document.getElementById('cartDrawer').classList.add('open'); document.getElementById('cartOverlay').classList.add('open'); }
+function closeCart() { document.getElementById('cartDrawer').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); }
+
+function goCheckout() {
+  closeCart();
+  const summaryEl = document.getElementById('checkoutSummaryItems');
+  if (cart.length === 0) { showToast('Add some items first!'); return; }
+  summaryEl.innerHTML = cart.map(i => `
+    <div class="summary-item">
+      <span>${i.emoji} ${i.name}${i.cut ? ` (${i.cut})` : ''} × ${i.qty}${i.unit}</span>
+      <span>${i.price ? `$${(i.price * i.qty).toFixed(2)}` : 'TBC'}</span>
+    </div>`).join('');
+  const tot = cart.reduce((s,i) => s + (i.price ? i.price*i.qty : 0), 0);
+  document.getElementById('checkoutTotal').textContent = tot > 0 ? `$${tot.toFixed(2)}` : 'TBC — confirmed before delivery';
+  document.getElementById('checkoutOverlay').classList.add('open');
+  setTimeout(() => { document.getElementById('payment').scrollIntoView({behavior:'smooth'}); }, 300);
+}
+function closeCheckout(e) {
+  if (!e || e.target === document.getElementById('checkoutOverlay')) document.getElementById('checkoutOverlay').classList.remove('open');
+}
+
+// ─── PAYMENT ──────────────────────────────────────────────────────────────
+function selectPayment(method) {
+  ['card','afterpay','zip','bank','cash'].forEach(m => document.getElementById(`pm-${m}`).classList.remove('selected'));
+  document.getElementById(`pm-${method}`).classList.add('selected');
+  document.getElementById('cardFields').style.display = method === 'card' ? 'block' : 'none';
+  document.getElementById('bankInfo').style.display = method === 'bank' ? 'block' : 'none';
+}
+function formatCard(input) {
+  let v = input.value.replace(/\D/g, '').substring(0,16);
+  input.value = v.replace(/(.{4})/g,'$1 ').trim();
+  const icon = document.getElementById('cardIcon');
+  icon.textContent = v.startsWith('4') ? '💙' : v.startsWith('5') ? '❤️' : v.startsWith('3') ? '💚' : '💳';
+}
+function formatExpiry(input) {
+  let v = input.value.replace(/\D/g,'');
+  if (v.length >= 2) v = v.substring(0,2) + ' / ' + v.substring(2,4);
+  input.value = v;
+}
+
+function submitOrder() {
+  const fname = document.getElementById('fname').value;
+  const town = document.getElementById('town').value;
+  if (!fname || !town) { alert('Please fill in your name and delivery area.'); return; }
+  showToast('✓ Order received! We\'ll call you within 24 hours.');
+  cart = [];
+  updateCartUI();
+  ['fname','lname','phone','email','notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('town').value = '';
+}
+
+// ─── TOAST ────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ─── REVEAL ───────────────────────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ─── INIT ─────────────────────────────────────────────────────────────────
+renderItems('all');
+</script>
+</body>
+</html>
